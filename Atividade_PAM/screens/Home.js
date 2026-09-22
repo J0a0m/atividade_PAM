@@ -9,10 +9,9 @@ export default function Home(){
     }
     return(
         <View>
-            <Text>Seja bem-vindo(a)!</Text>
-            <Text>Usuário: {auth.currentUser?.email}</Text>
+            <Text>Seja bem-vindo(a), {auth.currentUser?.email}!</Text>
             <Button
-                title='Sair'
+                title='Sair da conta'
                 onPress={realizarLogout}
             />
         </View>
