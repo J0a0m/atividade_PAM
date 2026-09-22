@@ -1,55 +1,93 @@
-import {View, Text, TextInput, Button, Alert} from "react-native"
+import { View, Text, TextInput, Button, StyleSheet } from "react-native"
 import { useState } from "react"
 import { cadastrar } from "../services/auth"
- 
-export default function Cadastro(navigation){
+
+export default function Cadastro({ navigation }) {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
 
     async function realizarCadastro() {
-        if(!email || !senha){
+        if (!email || !senha) {
             alert("Preencha todos os campos.")
             return
         }
 
-        try{
+        try {
             await cadastrar(email, senha)
             alert("Usuário cadastrado com sucesso!")
             navigation.navigate("Login")
-        } catch(error){
+        } catch (error) {
             alert("Não foi possível realizar o cadastro.")
             console.log(error)
         }
     }
 
-    return(
-        <View>
-            <Text>Cadastro</Text>
- 
+    return (
+        <View style={styles.container}>
+
+            <Text style={styles.titulo}>Cadastro</Text>
+
             <TextInput
+                style={styles.input}
                 placeholder="E-mail"
                 value={email}
                 onChangeText={setEmail}
-                keyboardType="email-adress"
+                keyboardType="email-address"
                 autoCapitalize="none"
             />
- 
+
             <TextInput
+                style={styles.input}
                 placeholder="Senha"
                 value={senha}
                 onChangeText={setSenha}
                 secureTextEntry
             />
- 
-            <Button
-                title='Cadastrar'
-                onPress={realizarCadastro}
-            />
- 
-            <Button
-                title="Já tenho conta"
-                onPress={()=>NavigationPreloadManager.navigate('Login')}
-            />
+
+            <View style={styles.botao}>
+                <Button
+                    title="Cadastrar"
+                    onPress={realizarCadastro}
+                />
+            </View>
+
+            <View style={styles.botao}>
+                <Button
+                    title="Já tenho conta"
+                    onPress={() => navigation.navigate('Login')}
+                />
+            </View>
+
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 25,
+        backgroundColor: '#f5f5f5',
+    },
+
+    titulo: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 30,
+    },
+
+    input: {
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        padding: 12,
+        marginBottom: 15,
+        fontSize: 16,
+    },
+
+    botao: {
+        marginBottom: 12,
+    },
+})
